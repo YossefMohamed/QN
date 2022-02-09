@@ -1,0 +1,7 @@
+body {
+  font-family: "Changa";
+  font-size: 22px;
+}
+* {
+  transition: 100ms ease-in-out;
+}
