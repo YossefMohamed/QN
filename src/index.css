@@ -1,7 +1,17 @@
 body {
-  font-family: "Changa";
+  font-family: "El Messiri", sans-serif;
   font-size: 22px;
+  transition: all 00ms ease-in-out;
 }
 * {
-  transition: 100ms ease-in-out;
+  transition: all 50ms ease-in-out;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "El Messiri", sans-serif;
 }

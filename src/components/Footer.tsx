@@ -10,6 +10,7 @@ const FooterContainer = styled.div`
   border-top: 1px solid ${colors.main};
   text-align: center;
   padding: 20px;
+  margin: 50px 0 5px;
   background: ${colors.main};
   color: #fff;
   font-size: ${sizes.normal};

@@ -1,21 +1,172 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { sizes } from "../constant";
-export const Navbar = () => (
-  <Container>
-    <Logo>
-      <div className="bars">
-        <i className="fa fa-bars"></i>
-      </div>
-      <div className="logo">QN</div>
-    </Logo>
-    <List>
-      <li>دخول</li>
-      <li>تسجيل</li>
-      <li>ساعدنا</li>
-    </List>
-  </Container>
-);
+import { colors, sizes } from "../constant";
+import { Rootstate } from "../store/store";
+export const Navbar = () => {
+  const navigate = useNavigate();
+  const [display, setDisplay] = useState<boolean>(false);
+  const [favList, setFavList] = useState<boolean>(false);
+  const auth = useSelector((state: Rootstate) => state.auth);
+  return (
+    <Container favList={favList}>
+      <Logo>
+        <div className="bars" onClick={(e) => setDisplay((prev) => !prev)}>
+          <i className="fa fa-bars"></i>
+        </div>
+        <div className="logo" onClick={(e) => navigate("/")}>
+          QN
+        </div>
+      </Logo>
+      <List>
+        {!Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              setDisplay(false);
+              navigate("/signin");
+            }}
+          >
+            دخول
+          </li>
+        ) : (
+          ""
+        )}
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/prayertime");
+          }}
+        >
+          مواقيت الصلاة
+        </li>{" "}
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/blog");
+          }}
+        >
+          المدونة{" "}
+        </li>
+        <li className="favorite-item">
+          <span onMouseEnter={(e) => setFavList((prev) => !prev)}>المفضلة</span>
+          <ul className="favorite-list">
+            <li
+              onClick={(e) => {
+                setDisplay(false);
+                navigate("/favorite-ayahs");
+              }}
+            >
+              ألايات المفضله
+            </li>
+            <li
+              onClick={(e) => {
+                setDisplay(false);
+                navigate("/favorite-hadiths");
+              }}
+            >
+              الأحاديث المفضله
+            </li>
+          </ul>
+        </li>
+        {!Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              setDisplay(false);
+              navigate("/signup");
+            }}
+          >
+            تسجيل
+          </li>
+        ) : (
+          ""
+        )}
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/remember-us");
+          }}
+        >
+          تذكرنا
+        </li>
+      </List>
+      <ListMedia display={display}>
+        {!Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              setDisplay(false);
+              navigate("/signin");
+            }}
+          >
+            دخول
+          </li>
+        ) : (
+          ""
+        )}
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/prayertime");
+          }}
+        >
+          مواقيت الصلاة
+        </li>
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/blog");
+          }}
+        >
+          المدونة{" "}
+        </li>
+        {!Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              setDisplay(false);
+              navigate("/signup");
+            }}
+          >
+            تسجيل
+          </li>
+        ) : (
+          ""
+        )}
+        <li
+          onClick={(e) => {
+            setDisplay(false);
+            navigate("/remember-us");
+          }}
+        >
+          تذكرنا
+        </li>
+      </ListMedia>
+    </Container>
+  );
+};
+
+const ListMedia = styled.li<{ display: boolean }>`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  box-shadow: 10px 10px 5px -2px rgba(0, 0, 0, 0.2);
+
+  display: ${(props) => (props.display ? "flex" : "none")};
+  width: 100%;
+  flex-direction: column;
+  list-style: none;
+  font-size: ${sizes.normal};
+  border: 2px solid ${colors.main};
+
+  li {
+    padding: 15px 20px;
+    cursor: pointer;
+    background: #fff;
+    &:hover {
+      color: #fff;
+      background: ${colors.main};
+    }
+  }
+`;
 
 const List = styled.ul`
   display: flex;
@@ -26,16 +177,56 @@ const List = styled.ul`
   font-size: ${sizes.normal};
   justify-content: end;
   & li {
+    padding: 0 5px;
+    cursor: pointer;
     margin: 15px;
+    border-bottom: solid 2px transparent;
+
     list-style: none;
+    &:hover {
+      border-bottom: solid 2px ${colors.main};
+    }
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
-const Container = styled.div`
+
+const Container = styled.div<{ favList: boolean }>`
+  .favorite-item {
+    position: relative;
+  }
+  .favorite-list {
+    position: absolute;
+    width: 50px;
+    box-shadow: 0 2px 5px -2px rgb(0 0 0 / 20%);
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    margin: 10px 0;
+    width: 200px;
+    background-color: #fff;
+    display: ${(props) => (props.favList ? "flex" : "none")};
+    justify-content: center;
+    flex-direction: column;
+    li {
+      box-sizing: border-box;
+      padding: 10px;
+      margin: 0;
+      width: 100%;
+    }
+  }
+  position: relative;
+  box-sizing: content-box;
   display: flex;
   position: sticky;
-  height: 5rem;
+  top: 0;
+  z-index: 90000000 !important;
+  background: #fff;
+  height: 3.5rem;
   font-size: 2rem;
-  padding: 5px 15px;
+  padding: 15px 15px;
   box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.2);
 `;
 const Logo = styled.div`
@@ -48,14 +239,24 @@ const Logo = styled.div`
   display: flex;
   padding-left: 10px;
   .bars {
-    display: flex;
+    display: none;
+    cursor: pointer;
   }
   .logo {
     font-family: "Reem Kufi";
     font-size: ${sizes.normal};
-
+    cursor: pointer;
+    font-weight: bolder;
     margin-left: 30px;
     font-size: 1.75rem;
     color: rgb(61, 116, 54);
+  }
+  @media (max-width: 768px) {
+    .bars {
+      display: flex;
+      cursor: pointer;
+    }
+    width: 100%;
+    justify-content: space-between;
   }
 `;
