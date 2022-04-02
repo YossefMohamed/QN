@@ -7,13 +7,13 @@ export const Azkary = () => {
     <>
       <SunnahHeader>
         <div className="header-container">
-          <h5>أختارنوع الاذكار :</h5>
+          <h3>أختارنوع الاذكار :</h3>
         </div>
       </SunnahHeader>
       <AzkaryContainer>
         {Object.keys(azkar).map((el, idx) => (
           <CardSurah
-          key={idx}
+            key={idx}
             number={idx}
             name={el}
             type="azkary"
@@ -47,7 +47,7 @@ const SunnahHeader = styled.div`
     width: 100%;
     direction: rtl;
   }
-  h5 {
+  h3 {
     direction: rtl;
     width: fit-content;
     padding: 10px 10px;

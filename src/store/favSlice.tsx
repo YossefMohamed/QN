@@ -23,6 +23,7 @@ export const addFav = createAsyncThunk(
           type: args.type,
           surah: args.surah || 0,
           user: args.user,
+          surahName: args.surahName,
         },
         {
           withCredentials: true,
@@ -35,12 +36,21 @@ export const addFav = createAsyncThunk(
   }
 );
 
+export const removeFav = createAsyncThunk(
+  "fav/remove",
+  async (args: { id: string }, thunkApi) => {
+    const res = await axios.delete(
+      "http://localhost:8000/api/favorite/" + args.id
+    );
+    return res.data.data;
+  }
+);
+
 export const getFavs = createAsyncThunk("fav/getall", async (_, thunkApi) => {
   try {
     const res = await axios.get("http://localhost:8000/api/favorite/", {
       withCredentials: true,
     });
-    console.log(res.data.data);
     return res.data.data;
   } catch (err: any) {
     return thunkApi.rejectWithValue(err.response.data);
@@ -53,7 +63,8 @@ const favSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addFav.fulfilled, (state, action) => {
-      console.log(action);
+      state.fav = action.payload;
+      state.loading = false;
     });
     builder.addCase(addFav.pending, (state, action) => {
       state.loading = true;
@@ -70,6 +81,20 @@ const favSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getFavs.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+    builder.addCase(removeFav.fulfilled, (state, action: any) => {
+      state.fav = state.fav.filter(
+        (fav: { _id: string }) => fav._id !== action.meta.arg.id
+      );
+
+      state.loading = false;
+    });
+    builder.addCase(removeFav.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(removeFav.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload.message;
     });

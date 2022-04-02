@@ -19,7 +19,6 @@ const Sunnah = () => {
       <SunnahContainer>
         {sunnahBooks.length ? (
           sunnahBooks.map((el, idx) => {
-            console.log(el.type);
             return (
               <CardSurah
                 key={idx}

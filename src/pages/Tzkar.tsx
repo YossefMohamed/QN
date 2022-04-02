@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Ayah from "../components/Ayah";
 import CardSurah from "../components/CardSurah";
+import { FormModel } from "../components/FormModel";
+import { Loader } from "../components/Loader";
 import { colors } from "../constant";
+import { getDeaths, postDeaths } from "../store/deathSlice";
+import { Rootstate } from "../store/store";
+import moment from "moment";
 
 const Tzkar = () => {
   const [names, setNames] = useState([
@@ -39,8 +45,53 @@ const Tzkar = () => {
       date: "1998",
     },
   ]);
+  const [name, setName] = useState("");
+  const [display, setDisplay] = useState(false);
+  const [date, setDate] = useState<any>("");
+  const death = useSelector((state: Rootstate) => state.death);
+
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getDeaths());
+  }, []);
+  React.useEffect(() => {
+    console.log(!name.length, !date.length);
+  }, [name.length, date.length]);
   return (
     <div>
+      <FormModel
+        appear={display}
+        setDisplay={setDisplay}
+        action={() => {
+          dispatch(postDeaths({ name, date }));
+          setName("");
+          setDate("");
+          setDisplay(false);
+        }}
+        disabled={!name.length || !date.length}
+        message="أضف الأسم"
+      >
+        <div>
+          <input
+            type="text"
+            placeholder="الأسم"
+            onChange={(e: any) => setName(e.target.value)}
+            value={name}
+            maxLength={20}
+          />
+        </div>
+        <div>
+          <input
+            type="date"
+            placeholder="التاريخ"
+            onChange={(e: any) => {
+              console.log(!date);
+              setDate(e.target.value);
+            }}
+            value={date}
+          />
+        </div>
+      </FormModel>
       <HadithHeader className="hadith--header">
         <h5> تذكروهم بالخير ❤️</h5>
       </HadithHeader>
@@ -53,24 +104,28 @@ const Tzkar = () => {
         type="death"
       />
       <NamesContaienr>
-        <h3 onClick={(e) => alert("ok")}>أضف أسم </h3>
+        <h3 onClick={(e) => setDisplay(true)}>أضف أسم </h3>
         <div
           className="flex-contaienr"
           onClick={(e) => {
             e.preventDefault();
           }}
         >
-          {names.map((el, idx) => {
-            return (
-              <CardSurah
-                key={idx}
-                number={idx}
-                name={el.name}
-                englishName={el.date}
-                type={"death"}
-              />
-            );
-          })}
+          {death.loading ? (
+            <Loader />
+          ) : (
+            death.names.map((el: any, idx: any) => {
+              return (
+                <CardSurah
+                  key={idx}
+                  number={idx}
+                  name={el.name}
+                  englishName={moment(el.date).format("MMMM Do YYYY")}
+                  type={"death"}
+                />
+              );
+            })
+          )}
         </div>
       </NamesContaienr>
     </div>
@@ -109,6 +164,8 @@ const HadithHeader = styled.div`
       background: ${colors.main};
       color: #fff;
     }
+  }
+  @media (max-width: 768px) {
   }
 `;
 

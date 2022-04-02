@@ -3,7 +3,7 @@ import { RiPauseMiniFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { colors, sizes } from "../constant";
-import { addFav } from "../store/favSlice";
+import { addFav, removeFav } from "../store/favSlice";
 import { startMedia, stopMedia } from "../store/mediaSlice";
 import { Rootstate } from "../store/store";
 type AyahProps = {
@@ -12,6 +12,7 @@ type AyahProps = {
   englishText: string;
   tafsser?: string;
   type?: string;
+  surahName?: string;
   surah?: number;
 };
 const Ayah: FC<AyahProps> = ({
@@ -20,6 +21,7 @@ const Ayah: FC<AyahProps> = ({
   englishText,
   tafsser,
   type,
+  surahName,
   surah = 0,
 } = defaultProps) => {
   const [tafsserAyah, setTafsserAyah] = useState<string>(
@@ -27,6 +29,7 @@ const Ayah: FC<AyahProps> = ({
   );
   const mediaData = useSelector((state: Rootstate) => state.media);
   const user = useSelector((state: Rootstate) => state.auth.user);
+  const { fav, loading } = useSelector((state: Rootstate) => state.fav);
 
   const dispatch = useDispatch();
   const [audio, setAudio] = useState({
@@ -66,9 +69,25 @@ const Ayah: FC<AyahProps> = ({
       setTafsserAyah("");
     }
   };
-  console.log(
-    user.favorite.map((fav: any) => fav.text === text && fav.surah === surah)
-  );
+  const [favButton, setFavButton] = useState(false);
+  const [favId, setFavId] = useState<any>();
+  useEffect(() => {
+    if (fav) {
+      fav.map((fav: any) => {
+        if (fav.text === text && Number(fav.surah) === Number(surah)) {
+          setFavButton(true);
+          setFavId(fav._id);
+        }
+      });
+    }
+  }, [fav]);
+  console.log({
+    data: mediaData.type,
+    numbers: Number(mediaData.number - 1),
+    number: number - 1,
+    surah: mediaData.surahNumber,
+    s: Number(surah) + 1,
+  });
   return (
     <AyahContainer
       playing={
@@ -83,40 +102,38 @@ const Ayah: FC<AyahProps> = ({
         {type !== "death" && <div className="number">{number}</div>}
 
         <div className="surah-tools">
-          <div
-            className={`fav-button ${
-              !!!user.favorite
-                .map((fav: any) => fav.text === text && fav.surah === surah)
-                .indexOf(true)
-                ? "fav--hovered"
-                : ""
-            }`}
-          >
-            {type !== "death" && (
-              <button
-                onClick={(e) =>
-                  dispatch(
-                    addFav({
-                      text,
-                      number,
-                      englishText,
-                      tafsser,
-                      type,
-                      surah,
-                      user: user._id,
-                    })
-                  )
-                }
-                disabled={
-                  !!!user.favorite
-                    .map((fav: any) => fav.text === text && fav.surah === surah)
-                    .indexOf(true)
-                }
-              >
-                <i className="fa fa-star"></i>
-              </button>
-            )}
-          </div>
+          {user.id && (
+            <div className={`fav-button ${favButton ? "fav--hovered" : ""}`}>
+              {!type && (
+                <button
+                  onClick={(e) =>
+                    !favButton
+                      ? dispatch(
+                          addFav({
+                            text,
+                            number,
+                            englishText,
+                            tafsser,
+                            surahName,
+                            type,
+                            surah,
+                            user: user._id,
+                          })
+                        )
+                      : dispatch(removeFav({ id: favId }))
+                  }
+                >
+                  {loading && !favButton ? (
+                    <span className="spinner-loading">
+                      <i className="fa fa-spinner"></i>
+                    </span>
+                  ) : (
+                    <i className="fa fa-star"></i>
+                  )}
+                </button>
+              )}
+            </div>
+          )}
           {!type && (
             <>
               <div>
@@ -149,7 +166,13 @@ const Ayah: FC<AyahProps> = ({
                   }}
                 >
                   {!audio.playing ? (
-                    <i className="fa fa-play"></i>
+                    mediaData.loading ? (
+                      <span className="spinner-loading">
+                        <i className="fa fa-spinner"></i>
+                      </span>
+                    ) : (
+                      <i className="fa fa-play"></i>
+                    )
                   ) : (
                     <RiPauseMiniFill />
                   )}
@@ -265,7 +288,14 @@ const AyahContainer = styled.div<{ playing: boolean }>`
     border: rgb(178 178 178) !important;
     color: rgb(255 200 0) !important;
   }
-
+  .spinner-loading {
+    animation: mymove 0.5s infinite;
+  }
+  @keyframes mymove {
+    50% {
+      transform: rotate(180deg);
+    }
+  }
   @media (max-width: 1039px) {
     font-size: ${sizes.small};
     .ayah-text__ar {

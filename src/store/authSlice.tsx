@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState: any = {
-  user: {
-    favorite: [],
-  },
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") || " {}")
+    : {},
   loading: false,
   error: "",
 };
@@ -25,9 +25,24 @@ export const signin = createAsyncThunk(
           withCredentials: true,
         }
       );
+      localStorage.setItem("user", JSON.stringify(res.data.data.user));
       return res.data.data.user;
     } catch (err: any) {
-      console.log(err.response.data);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const signout = createAsyncThunk(
+  "auth/signout",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      dispatch(logout());
+      const data = await axios.get("http://localhost:8000/api/user/signout");
+      localStorage.removeItem("user");
+
+      return {};
+    } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
   }
@@ -39,7 +54,7 @@ export const signup = createAsyncThunk(
     args: {
       email: string;
       password: string;
-      firstName: String;
+      firstName: string;
       lastName: string;
       gander: string;
     },
@@ -61,10 +76,8 @@ export const signup = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data.data);
       return data.data;
     } catch (err: any) {
-      console.log("ss");
       return rejectWithValue(err.response.data);
     }
   }

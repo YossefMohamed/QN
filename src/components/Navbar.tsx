@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { colors, sizes } from "../constant";
+import { signout } from "../store/authSlice";
 import { Rootstate } from "../store/store";
 export const Navbar = () => {
   const navigate = useNavigate();
   const [display, setDisplay] = useState<boolean>(false);
   const [favList, setFavList] = useState<boolean>(false);
   const auth = useSelector((state: Rootstate) => state.auth);
+  const dispatch = useDispatch();
+
   return (
     <Container favList={favList}>
       <Logo>
@@ -20,6 +23,17 @@ export const Navbar = () => {
         </div>
       </Logo>
       <List>
+        {Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              dispatch(signout());
+            }}
+          >
+            الخروج
+          </li>
+        ) : (
+          ""
+        )}
         {!Object.values(auth.user).length ? (
           <li
             onClick={(e) => {
@@ -39,7 +53,8 @@ export const Navbar = () => {
           }}
         >
           مواقيت الصلاة
-        </li>{" "}
+        </li>
+
         <li
           onClick={(e) => {
             setDisplay(false);
@@ -48,27 +63,7 @@ export const Navbar = () => {
         >
           المدونة{" "}
         </li>
-        <li className="favorite-item">
-          <span onMouseEnter={(e) => setFavList((prev) => !prev)}>المفضلة</span>
-          <ul className="favorite-list">
-            <li
-              onClick={(e) => {
-                setDisplay(false);
-                navigate("/favorite-ayahs");
-              }}
-            >
-              ألايات المفضله
-            </li>
-            <li
-              onClick={(e) => {
-                setDisplay(false);
-                navigate("/favorite-hadiths");
-              }}
-            >
-              الأحاديث المفضله
-            </li>
-          </ul>
-        </li>
+
         {!Object.values(auth.user).length ? (
           <li
             onClick={(e) => {
@@ -79,7 +74,11 @@ export const Navbar = () => {
             تسجيل
           </li>
         ) : (
-          ""
+          <li onClick={(e) => {}}>
+            <span onClick={(e) => navigate("/favorite-ayahs")}>
+              ألايات المفضله
+            </span>
+          </li>
         )}
         <li
           onClick={(e) => {
@@ -139,6 +138,11 @@ export const Navbar = () => {
         >
           تذكرنا
         </li>
+        <li onClick={(e) => {}}>
+          <span onClick={(e) => navigate("/favorite-ayahs")}>
+            ألايات المفضله
+          </span>
+        </li>
       </ListMedia>
     </Container>
   );
@@ -156,11 +160,11 @@ const ListMedia = styled.li<{ display: boolean }>`
   list-style: none;
   font-size: ${sizes.normal};
   border: 2px solid ${colors.main};
+  background: #fff;
 
   li {
     padding: 15px 20px;
     cursor: pointer;
-    background: #fff;
     &:hover {
       color: #fff;
       background: ${colors.main};
@@ -187,21 +191,19 @@ const List = styled.ul`
       border-bottom: solid 2px ${colors.main};
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     display: none;
   }
 `;
 
 const Container = styled.div<{ favList: boolean }>`
   .favorite-item {
-    position: relative;
   }
   .favorite-list {
     position: absolute;
     width: 50px;
     box-shadow: 0 2px 5px -2px rgb(0 0 0 / 20%);
-    top: 100%;
-    left: 50%;
+    top: 85%;
     transform: translateX(-50%);
     padding: 0;
     margin: 10px 0;
@@ -213,6 +215,18 @@ const Container = styled.div<{ favList: boolean }>`
     li {
       box-sizing: border-box;
       padding: 10px;
+      margin: 0;
+      width: 100%;
+    }
+  }
+  .favorite-list-media {
+    list-style: none;
+    padding: 0;
+    display: ${(props) => (props.favList ? "flex" : "none")};
+    flex-direction: column;
+    li {
+      box-sizing: border-box;
+      padding: 10px 50px;
       margin: 0;
       width: 100%;
     }
@@ -251,7 +265,7 @@ const Logo = styled.div`
     font-size: 1.75rem;
     color: rgb(61, 116, 54);
   }
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     .bars {
       display: flex;
       cursor: pointer;

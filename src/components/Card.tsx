@@ -27,7 +27,8 @@ const CardContainer = styled.div`
   }
   height: 300px;
   position: relative;
-  min-width: 500px;
+  width: 400px;
+  margin: 0 10px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -52,6 +53,6 @@ const CardContainer = styled.div`
     mix-blend-mode: multiply;
   }
   @media (max-width: 587px) {
-    min-width: 300px !important;
+    min-width: 90% !important;
   }
 `;

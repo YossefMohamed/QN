@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSLice from "./authSlice";
+import { commentSlice } from "./commentSlice";
+import { deathSlice } from "./deathSlice";
 import favSlice from "./favSlice";
 import { MediaSlice } from "./mediaSlice";
+import { postSlice } from "./postSlice";
 import surahsSlice from "./surahsSlice";
 
 export const store = configureStore({
@@ -9,7 +12,10 @@ export const store = configureStore({
     surahs: surahsSlice.reducer,
     media: MediaSlice.reducer,
     auth: authSLice.reducer,
+    post: postSlice.reducer,
     fav: favSlice.reducer,
+    comments: commentSlice.reducer,
+    death: deathSlice.reducer,
   },
 });
 

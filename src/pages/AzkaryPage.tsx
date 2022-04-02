@@ -12,7 +12,7 @@ const AzkaryPage = () => {
     <>
       <SunnahHeader>
         <div className="header-container" onClick={(e) => nagigate("/azkary")}>
-          <h5>{"العودة لباقي الاذكار :"}</h5>
+          <h3>{"العودة لباقي الاذكار :"}</h3>
         </div>
       </SunnahHeader>
       <div>
@@ -21,6 +21,7 @@ const AzkaryPage = () => {
             {
               <Ayah
                 text={el.content}
+                type="azkary"
                 number={Number(el.count)}
                 tafsser={el.description}
                 englishText={el.reference}
@@ -39,7 +40,7 @@ const SunnahHeader = styled.div`
     direction: rtl;
   }
 
-  h5 {
+  h3 {
     direction: rtl;
     width: fit-content;
     padding: 10px 10px;

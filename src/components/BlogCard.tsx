@@ -1,23 +1,36 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { colors, sizes } from "../constant";
 
-const BlogCard = () => {
+interface IBlogCard {
+  title: String;
+  content: string;
+  category: string;
+  author: string;
+  postID: string;
+  image?: string;
+}
+
+const BlogCard: React.FC<IBlogCard> = ({
+  title,
+  content,
+  category,
+  author,
+  postID,
+  image,
+}) => {
+  const navigate = useNavigate();
   return (
     <BlogCardContainer>
       <div className="card_image">
-        <img src="nabawy.jpg" alt="as" loading="lazy" />
+        <img src={image ? image : "nabawy.jpg"} alt="as" loading="lazy" />
       </div>
       <div className="card_content">
-        <div className="cat-container">
-          {" "}
-          <div className="cat">السنة النبوية</div>
+        <div className="title" onClick={() => navigate("/blog/" + postID)}>
+          {title}
         </div>
-        <div className="title"> واسلام الختام علي اشرف الانام</div>
-        <div className="description">
-          فقه الصلاه والوفقه الصلاه والوفقه الصلاه والوفقه الصلاه والوفقه الصلاه
-          والوفقه الصلاه والوفقاه والوفقه الصلاه والوفقه الصلاه والو....
-        </div>
-        <div className="author">يوسف محمد</div>
+        <div className="description">{content.slice(0, 100) + "...."}</div>
+        <div className="author">{author}</div>
       </div>
     </BlogCardContainer>
   );
@@ -73,6 +86,7 @@ const BlogCardContainer = styled.div`
     .title {
       font-size: calc(${sizes.normal} + 0px);
       font-weight: bold;
+      cursor: pointer;
       margin: 20px 0;
     }
     .description {
@@ -86,6 +100,14 @@ const BlogCardContainer = styled.div`
       direction: ltr;
       font-size: calc(${sizes.normal} - 2px);
     }
+  }
+  @media (max-width: 1027px) {
+    width: 40%;
+    margin: 30px 5%;
+  }
+  @media (max-width: 800px) {
+    width: 90%;
+    margin: 30px 5%;
   }
 `;
 export default BlogCard;

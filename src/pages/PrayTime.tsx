@@ -56,17 +56,6 @@ export const PrayTime = () => {
       </HadithHeader>
       {timing.Asr ? (
         <PrayTimeContainer>
-          <div className="praytime-header">
-            <div className="header__clock">
-              <i className="fa fa-clock"></i>{" "}
-            </div>
-
-            <div className="header__info">
-              <div className="info-next">الصلاة القادمة</div>
-              <div className="info-time">11:59 am</div>
-              <div className="info-remaining">الظهر بعد 00 ساعة و 20 دقيقة</div>
-            </div>
-          </div>
           <PrayerItem>
             <div className="prayer-icon">
               <i className="fa fa-sun"></i>
@@ -117,18 +106,19 @@ export const PrayTime = () => {
   );
 };
 const HadithHeader = styled.div`
-direction: rtl;
-cursor: pointer;
-margin: 50px 0;
-h5 {
   direction: rtl;
-  width: fit-content;
-  padding: 10px 10px;
-  border-bottom: 2px solid ${colors.main};
-  &:hover {
-    background: ${colors.main};
-    color: #fff;
-  }}
+  cursor: pointer;
+  margin: 50px 0;
+  h5 {
+    direction: rtl;
+    width: fit-content;
+    padding: 10px 10px;
+    border-bottom: 2px solid ${colors.main};
+    &:hover {
+      background: ${colors.main};
+      color: #fff;
+    }
+  }
 `;
 
 const PrayTimeContainer = styled.div`
@@ -186,6 +176,7 @@ const PrayerItem = styled.div`
   font-size: calc(${sizes.big});
   margin: 5px 0 0;
   .prayer-name {
+    text-align: center;
     flex: 1;
   }
   .prayer-icon {

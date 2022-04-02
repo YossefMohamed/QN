@@ -6,6 +6,7 @@ import Ayah from "../components/Ayah";
 import { Loader } from "../components/Loader";
 import { Titlehadith } from "../components/styled-components/homePage";
 import { colors, sizes } from "../constant";
+import { getFavs } from "../store/favSlice";
 import { startMedia, stopMedia } from "../store/mediaSlice";
 import { Rootstate } from "../store/store";
 export const Surah: FC = () => {
@@ -32,12 +33,14 @@ export const Surah: FC = () => {
     }[]
   >([]);
   const [currNumber, setCurrNumber] = useState(0);
+  useEffect(() => {
+    dispatch(getFavs());
+  }, []);
   useLayoutEffect(() => {
     fetch(
       "https://api.alquran.cloud/v1/surah/" +
         (Number(params.id) + 1) +
-        "/editions/quran-uthmani,en.asad?" +
-        `offset=${currNumber}&limit=10`
+        "/editions/quran-uthmani,en.asad?"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -64,7 +67,7 @@ export const Surah: FC = () => {
     return () => {
       dispatch(stopMedia());
     };
-  }, [currNumber, params.id]);
+  }, [params.id]);
   const tafsserAppear = () => {
     fetch(
       "https://api.alquran.cloud/v1/surah/" +
@@ -162,6 +165,7 @@ export const Surah: FC = () => {
             <Ayah
               tafsser={tafsser.length ? tafsser[idx].text : ""}
               text={ayah.text}
+              surahName={surahName.name}
               surah={Number(params.id)}
               number={ayah.numberInSurah}
               key={idx}
