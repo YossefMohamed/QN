@@ -57,7 +57,7 @@ const BlogPost = () => {
             </div>
 
             <div className="articale--content">
-              {auth.user._id && (
+              {auth.user?._id && (
                 <div className="controll--post">
                   {liked ? (
                     <span className="loading">
@@ -84,7 +84,7 @@ const BlogPost = () => {
                       {post.likes && post.likes.length}
                     </span>
                   )}
-                  {auth.user._id === post.author.id && (
+                  {(auth.user._id ===post.author?._id)  && (
                     <>
                       <span>
                         <i
