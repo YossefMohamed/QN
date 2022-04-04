@@ -125,7 +125,7 @@ const PrayTimeContainer = styled.div`
   overflow: hidden;
   direction: rtl;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
-  padding: 25px 50px;
+  padding: 25px 5px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;

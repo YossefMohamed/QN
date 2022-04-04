@@ -162,7 +162,8 @@ const Container = styled.div`
   .comment {
     display: flex;
     .avatar {
-      width: 10%;
+      width: fit-content;
+      margin-left: 10px;
       overflow: hidden;
       display: flex;
 

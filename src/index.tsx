@@ -61,7 +61,7 @@ export const Root = () => {
   },[])
   return (
     <div className=" d-flex justify-content-center">
-      <Container className=" p-3 ">
+      <Container className=" p-lg-3 p-1">
         <BrowserRouter>
           <Navbar />
           <ScrollTop>

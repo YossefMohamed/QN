@@ -53,6 +53,7 @@ const CardContainer = styled.div`
     mix-blend-mode: multiply;
   }
   @media (max-width: 587px) {
-    min-width: 90% !important;
+    margin:auto;
+    width: 90% !important;
   }
 `;

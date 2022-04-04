@@ -84,11 +84,11 @@ const PageButtons = styled.div`
   }
   button {
     background-color: ${colors.main};
-    padding: 5px;
+    padding: 5px 15px;
     margin: 10px;
     color: white;
     font-size: ${sizes.small};
-    width: 10%;
+    width: fit-content;
     text-align: center;
     outline: 0;
     border: 0;
