@@ -8,7 +8,7 @@ const initialState: any = {
 };
 export const getDeaths = createAsyncThunk("death/getDeaths", async () => {
   try {
-    const { data }: any = await axios.get("http://localhost:8000/api/death");
+    const { data }: any = await axios.get("https://qn-api.herokuapp.com/api/death");
     return data.data;
   } catch (error) {
     return "Error";
@@ -19,7 +19,7 @@ export const postDeaths = createAsyncThunk(
   async (args: { name: string; date: any }, thunkAPI) => {
     try {
       const { data }: any = await axios.post(
-        "http://localhost:8000/api/death",
+        "https://qn-api.herokuapp.com/api/death",
         {
           name: args.name,
           date: args.date,

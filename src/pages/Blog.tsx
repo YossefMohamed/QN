@@ -29,7 +29,7 @@ const Blog = () => {
   return (
     <>
       <BlogCat>
-        <div className="cat--write mt-5">
+        <div className="cat--write mt-5" onClick={()=> navigate("/blog/add")}>
           أكتب موضوع <i className="fas fa-edit	icon--write"></i>
         </div>
       </BlogCat>{" "}

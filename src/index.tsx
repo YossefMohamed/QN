@@ -27,8 +27,38 @@ import BlogPost from "./pages/BlogPost";
 import { WritePost } from "./pages/WritePost";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollTop from "./utils/ScrollTop";
-
+import {data} from "./utils/not" 
 export const Root = () => {
+
+
+  React.useEffect(() => {
+    let timeOut:any;
+    function notifyForThisMinute() {
+       
+        if (!("Notification" in window)) {
+          alert("This browser does not support desktop notification");
+        }
+        else if (Notification.permission === "granted") {
+          var notification = new Notification("لا تنسي ذكر الله",{
+            body : data.hadiths[new Date().getMinutes() -1].arab
+          });
+        }
+      
+        else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+              var notification = new Notification("لا تنسي ذكر الله",{
+                body : data.hadiths[new Date().getMinutes() -1].arab
+              });
+            }
+          })
+        }
+
+      timeOut = setTimeout( notifyForThisMinute,60000)
+  }
+  notifyForThisMinute()
+  return clearTimeout(timeOut)
+  },[])
   return (
     <div className=" d-flex justify-content-center">
       <Container className=" p-3 ">
@@ -59,7 +89,7 @@ export const Root = () => {
               <Route path="/favorite-ayahs" element={<AyahFav />} />
               <Route path="/surah/:id" element={<Surah />} />
               <Route path="/blog/add" element={<WritePost />} />
-              <Route path="*" element={<h1>no routes00</h1>} />
+              <Route path="*" element={<h1>Error 404 not Found !!</h1>} />
             </Routes>
           </ScrollTop>
         </BrowserRouter>
@@ -74,6 +104,8 @@ const Container = styled.div`
     width: 100%;
   }
 `;
+
+
 
 ReactDOM.render(
   <Provider store={store}>

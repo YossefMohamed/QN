@@ -15,7 +15,8 @@ const AyahFav = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(Object.values(auth.user).length);
+    
+    console.log(Object.values(auth.user));
     if (Object.values(auth.user).length) {
       dispatch(getFavs());
     } else {
@@ -35,7 +36,7 @@ const AyahFav = () => {
       )}
       <Titlehadith>الأيات المفضلة ⭐ :</Titlehadith>
       {!favs.loading ? (
-        favs.fav.map((aya: any) => (
+        favs.fav.length ? favs.fav.map((aya: any) => (
           <>
             <h3
               onClick={(e) => navigate("/surah/" + aya.surah)}
@@ -55,7 +56,7 @@ const AyahFav = () => {
               surah={Number(aya.surah)}
             />
           </>
-        ))
+        )):<h1 style={{direction : "rtl"}}>لا يوجد أيات مفضلة </h1>
       ) : (
         <Loader />
       )}

@@ -6,11 +6,14 @@ export const addComment = createAsyncThunk(
   async (args: any, thunkAPI: any) => {
     try {
       const { data }: any = await axios.post(
-        "http://localhost:8000/api/post/" + args.post + "/comment",
+        "https://qn-api.herokuapp.com/api/post/" + args.post + "/comment",
         {
           content: args.content,
         }
-      );
+      , {
+        headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+  
+        });
       thunkAPI.dispatch(getComments({ post: args.post }));
     } catch {}
   }
@@ -21,7 +24,10 @@ export const getComments = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.get(
-        "http://localhost:8000/api/post/" + args.post + "/comment"
+        "https://qn-api.herokuapp.com/api/post/" + args.post + "/comment" ,  {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       return data.data;
     } catch (error) {}
@@ -33,10 +39,13 @@ export const deleteComment = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.delete(
-        "http://localhost:8000/api/post/" +
+        "https://qn-api.herokuapp.com/api/post/" +
           args.post +
           "/comment/" +
-          args.comment
+          args.comment, {
+            headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+      
+            }
       );
       thunkAPI.dispatch(getComments({ post: args.post }));
 

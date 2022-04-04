@@ -6,7 +6,10 @@ export const getPosts = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.get(
-        "http://localhost:8000/api/post?page=" + args.page
+        "https://qn-api.herokuapp.com/api/post?page=" + args.page, {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       return data.data;
     } catch (error: any) {
@@ -20,7 +23,10 @@ export const likePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.post(
-        "http://localhost:8000/api/post/" + args.post
+        "https://qn-api.herokuapp.com/api/post/" + args.post,{} ,{
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       return data.data;
     } catch (error: any) {
@@ -34,7 +40,10 @@ export const deletePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.delete(
-        "http://localhost:8000/api/post/" + args.post
+        "https://qn-api.herokuapp.com/api/post/" + args.post, {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       return data.data;
     } catch (error: any) {
@@ -49,12 +58,15 @@ export const editPost = createAsyncThunk(
     try {
       const { post }: any = thunkAPI.getState();
       const { data }: any = await axios.patch(
-        "http://localhost:8000/api/post/" + args.post,
+        "https://qn-api.herokuapp.com/api/post/" + args.post,
         {
           content: args.body,
           title: args.title,
           image: args.image || "",
-        }
+        }, {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       thunkAPI.dispatch(getPost({ post: args.post }));
       return data.data;
@@ -70,10 +82,12 @@ export const getPost = createAsyncThunk(
     try {
       console.log(args);
       const { data }: any = await axios.get(
-        "http://localhost:8000/api/post/" + args.post
+        "https://qn-api.herokuapp.com/api/post/" + args.post, {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
-      console.log(data);
-
+      
       return data.data;
     } catch (error: any) {
       thunkAPI.rejectWithValue(error.message);
@@ -87,8 +101,11 @@ export const addPost = createAsyncThunk(
     try {
       // console.log(args);
       const { data }: any = await axios.post(
-        "http://localhost:8000/api/post",
-        args
+        "https://qn-api.herokuapp.com/api/post",
+        args, {
+          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
+    
+          }
       );
       return data.data;
     } catch (error: any) {

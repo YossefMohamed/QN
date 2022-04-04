@@ -143,6 +143,17 @@ export const Navbar = () => {
             ألايات المفضله
           </span>
         </li>
+        {Object.values(auth.user).length ? (
+          <li
+            onClick={(e) => {
+              dispatch(signout());
+            }}
+          >
+            الخروج
+          </li>
+        ) : (
+          ""
+        )}
       </ListMedia>
     </Container>
   );

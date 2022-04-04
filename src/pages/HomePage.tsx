@@ -31,6 +31,9 @@ export const HomePage = () => {
 
     !surahsReducer.surahs.length && dispatch(getSurahs());
   }, []);
+
+
+  
   return (
     <div>
       <Titlehadith>حديث اليوم :</Titlehadith>

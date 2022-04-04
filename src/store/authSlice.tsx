@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState: any = {
   user: localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user") || " {}")
+    ? JSON.parse(localStorage.getItem("user") || "{}")
     : {},
   loading: false,
   error: "",
@@ -16,7 +16,7 @@ export const signin = createAsyncThunk(
     console.log({ email: args.email, password: args.password });
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/user/signin",
+        "https://qn-api.herokuapp.com/api/user/signin",
         {
           email: args.email,
           password: args.password,
@@ -25,7 +25,9 @@ export const signin = createAsyncThunk(
           withCredentials: true,
         }
       );
+      localStorage.setItem("token", JSON.stringify(res.data.data.token));
       localStorage.setItem("user", JSON.stringify(res.data.data.user));
+
       return res.data.data.user;
     } catch (err: any) {
       return rejectWithValue(err.response.data);
@@ -38,9 +40,13 @@ export const signout = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       dispatch(logout());
-      const data = await axios.get("http://localhost:8000/api/user/signout");
-      localStorage.removeItem("user");
+      const data = await axios.get("https://qn-api.herokuapp.com/api/user/signout" , {
+      headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
 
+      });
+      
+      localStorage.setItem("token", JSON.stringify(""));
+      localStorage.setItem("user", JSON.stringify({}));
       return {};
     } catch (err: any) {
       return rejectWithValue(err.response.data);
@@ -64,7 +70,7 @@ export const signup = createAsyncThunk(
     console.log({ email: args.email, password: args.password });
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/user/signup",
+        "https://qn-api.herokuapp.com/api/user/signup",
         {
           email: args.email,
           name: args.firstName,
@@ -76,7 +82,10 @@ export const signup = createAsyncThunk(
           withCredentials: true,
         }
       );
-      return data.data;
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      localStorage.setItem("token", JSON.stringify(data.data.token));
+      return data.data.user;
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
@@ -86,9 +95,11 @@ export const signup = createAsyncThunk(
 export const getMe = createAsyncThunk("auth/getme", async (_, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
-    const { data } = await axios.get("http://localhost:8000/api/user/me", {
+    const { data } = await axios.get("https://qn-api.herokuapp.com/api/user/me", {
       withCredentials: true,
+      headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
     });
+    
     return data.data;
   } catch (err: any) {
     return rejectWithValue(err.response.data);

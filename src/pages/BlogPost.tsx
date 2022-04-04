@@ -42,7 +42,11 @@ const BlogPost = () => {
               navigate("/blog");
             }}
           />
-          <Titlehadith>الرجوع </Titlehadith>
+          <Titlehadith onClick={() => navigate("/blog")}>
+            <span style={{cursor : "pointer"}}>
+            الرجوع
+            </span>
+             </Titlehadith>
           <div className="articale">
             <div className="articale--data">
               <div className="title">{post.title}</div>

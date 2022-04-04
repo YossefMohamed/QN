@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { colors, sizes } from "../constant";
+import removeMarkdown from "markdown-to-text";
 
 interface IBlogCard {
   title: String;
@@ -29,7 +30,9 @@ const BlogCard: React.FC<IBlogCard> = ({
         <div className="title" onClick={() => navigate("/blog/" + postID)}>
           {title}
         </div>
-        <div className="description">{content.slice(0, 100) + "...."}</div>
+        <div className="description">{removeMarkdown(content.slice(0, 100) + "....").replaceAll("#", "").replaceAll("]", "")
+        .replaceAll("-", " ").replaceAll("(", "")
+        .replaceAll(")", "").replaceAll("[", "")}</div>
         <div className="author">{author}</div>
       </div>
     </BlogCardContainer>
