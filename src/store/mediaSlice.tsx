@@ -60,7 +60,6 @@ export const MediaSlice = createSlice({
       state.error = undefined;
       state.numberOfAyahs = 0;
       state.playing = false;
-      console.log(state);
     },
     playingMedia: (state) => {
       state.playing = true;

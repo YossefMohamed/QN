@@ -89,7 +89,7 @@ export const Navbar = () => {
           تذكرنا
         </li>
       </List>
-      <ListMedia display={display}>
+      <ListMedia display={display.toString()}>
         {!Object.values(auth.user).length ? (
           <li
             onClick={(e) => {
@@ -159,13 +159,13 @@ export const Navbar = () => {
   );
 };
 
-const ListMedia = styled.li<{ display: boolean }>`
+const ListMedia = styled.li<{ display: string }>`
   position: absolute;
   top: 100%;
   left: 0;
   box-shadow: 10px 10px 5px -2px rgba(0, 0, 0, 0.2);
 
-  display: ${(props) => (props.display ? "flex" : "none")};
+  display: ${(props) => (props.display !== "false" ? "flex" : "none")};
   width: 100%;
   flex-direction: column;
   list-style: none;

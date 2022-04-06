@@ -15,8 +15,6 @@ const AyahFav = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    console.log(Object.values(auth.user));
     if (Object.values(auth.user).length) {
       dispatch(getFavs());
     } else {
@@ -36,27 +34,31 @@ const AyahFav = () => {
       )}
       <Titlehadith>الأيات المفضلة ⭐ :</Titlehadith>
       {!favs.loading ? (
-        favs.fav.length ? favs.fav.map((aya: any) => (
-          <>
-            <h3
-              onClick={(e) => navigate("/surah/" + aya.surah)}
-              style={{
-                padding: "20px 0 0",
-                direction: "rtl",
-                cursor: "pointer",
-              }}
-            >
-              {" "}
-              اذهب الي سورة {aya.surahName}
-            </h3>
-            <Ayah
-              text={aya.text}
-              englishText={aya.englishText}
-              number={aya.number}
-              surah={Number(aya.surah)}
-            />
-          </>
-        )):<h1 style={{direction : "rtl"}}>لا يوجد أيات مفضلة </h1>
+        favs.fav.length ? (
+          favs.fav.map((aya: any, idx: number) => (
+            <React.Fragment key={idx}>
+              <h3
+                onClick={(e) => navigate("/surah/" + aya.surah)}
+                style={{
+                  padding: "20px 0 0",
+                  direction: "rtl",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                اذهب الي سورة {aya.surahName}
+              </h3>
+              <Ayah
+                text={aya.text}
+                englishText={aya.englishText}
+                number={aya.number}
+                surah={Number(aya.surah)}
+              />
+            </React.Fragment>
+          ))
+        ) : (
+          <h1 style={{ direction: "rtl" }}>لا يوجد أيات مفضلة </h1>
+        )
       ) : (
         <Loader />
       )}

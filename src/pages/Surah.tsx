@@ -14,7 +14,6 @@ export const Surah: FC = () => {
   const dispatch = useDispatch();
 
   const [ayahsEn, setAyahsEn] = useState<any[]>([]);
-  //https://api.alquran.cloud/v1/surah/2/ar.alafasy?offset=1&limit=2
   const [ayahs, setAyahs] = useState<any[]>([]);
   const [ayahsNumber, setAyahsNumber] = useState<number>(0);
   const [surahName, setSurahName] = useState<{
@@ -124,11 +123,6 @@ export const Surah: FC = () => {
           <div className="surah-name__en">{surahName.englishName}</div>
           <div className="surah-name__ar">{surahName.name}</div>
           <div className="surah-tools">
-            <div className="fav-button">
-              <button>
-                <i className="fa fa-star"></i>
-              </button>
-            </div>
             <div aria-label="as">
               <button onClick={tafsserAppear}>
                 <i className="fa fa-comment"></i>

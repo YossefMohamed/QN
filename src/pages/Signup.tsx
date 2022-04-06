@@ -66,10 +66,6 @@ export const Signup = () => {
     validationSchema: validationSchema,
   });
 
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
   return (
     <FormContainer onSubmit={handleSubmit}>
       <h1>تسجيل</h1>

@@ -29,7 +29,7 @@ const Blog = () => {
   return (
     <>
       <BlogCat>
-        <div className="cat--write mt-5" onClick={()=> navigate("/blog/add")}>
+        <div className="cat--write mt-5" onClick={() => navigate("/blog/add")}>
           أكتب موضوع <i className="fas fa-edit	icon--write"></i>
         </div>
       </BlogCat>{" "}
@@ -62,10 +62,10 @@ const Blog = () => {
           Prev
         </button>
         <button
-          disabled={currentPage === totalPages}
-          className={`next ${currentPage === totalPages && "disabled"}`}
+          disabled={currentPage === totalPages - 1}
+          className={`next ${currentPage === totalPages - 1 && "disabled"}`}
           onClick={() => {
-            !(currentPage === totalPages) &&
+            !(currentPage === totalPages - 1) &&
               navigate(`/blog?page=${currentPage + 1}`);
           }}
         >

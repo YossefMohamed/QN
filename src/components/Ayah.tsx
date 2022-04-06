@@ -81,13 +81,7 @@ const Ayah: FC<AyahProps> = ({
       });
     }
   }, [fav]);
-  console.log({
-    data: mediaData.type,
-    numbers: Number(mediaData.number - 1),
-    number: number - 1,
-    surah: mediaData.surahNumber,
-    s: Number(surah) + 1,
-  });
+
   return (
     <AyahContainer
       playing={

@@ -19,14 +19,9 @@ export const Search = () => {
       .then((res) => res.json())
       .then((data) => setAyahs(data.data))
       .catch((e) => {
-        console.log(e.message);
         setError(true);
       });
   }, []);
-
-  console.log(
-    "https://api.alquran.cloud/v1/search/" + params.id + "/all/quran-simple-min"
-  );
 
   return (
     <div>

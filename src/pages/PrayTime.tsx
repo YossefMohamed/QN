@@ -42,13 +42,6 @@ export const PrayTime = () => {
         });
     });
   }, []);
-  useEffect(() => {
-    timing.Asr &&
-      console.log(
-        timing.Asr.split(" ")[0].split(":")[1] - new Date().getMinutes()
-      );
-  }, [timing]);
-
   return (
     <>
       <HadithHeader className="hadith--header">

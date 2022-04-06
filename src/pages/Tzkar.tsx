@@ -54,9 +54,6 @@ const Tzkar = () => {
   React.useEffect(() => {
     dispatch(getDeaths());
   }, []);
-  React.useEffect(() => {
-    console.log(!name.length, !date.length);
-  }, [name.length, date.length]);
   return (
     <div>
       <FormModel
@@ -85,7 +82,6 @@ const Tzkar = () => {
             type="date"
             placeholder="التاريخ"
             onChange={(e: any) => {
-              console.log(!date);
               setDate(e.target.value);
             }}
             value={date}

@@ -6,10 +6,15 @@ export const getPosts = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.get(
-        "https://qn-api.herokuapp.com/api/post?page=" + args.page, {
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        "https://qn-api.herokuapp.com/api/post?page=" + args.page,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
       return data.data;
     } catch (error: any) {
@@ -23,10 +28,16 @@ export const likePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.post(
-        "https://qn-api.herokuapp.com/api/post/" + args.post,{} ,{
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
       return data.data;
     } catch (error: any) {
@@ -40,10 +51,15 @@ export const deletePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.delete(
-        "https://qn-api.herokuapp.com/api/post/" + args.post, {
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
       return data.data;
     } catch (error: any) {
@@ -63,10 +79,15 @@ export const editPost = createAsyncThunk(
           content: args.body,
           title: args.title,
           image: args.image || "",
-        }, {
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
       thunkAPI.dispatch(getPost({ post: args.post }));
       return data.data;
@@ -80,14 +101,18 @@ export const getPost = createAsyncThunk(
   "post/getPost",
   async (args: any, thunkAPI) => {
     try {
-      console.log(args);
       const { data }: any = await axios.get(
-        "https://qn-api.herokuapp.com/api/post/" + args.post, {
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
-      
+
       return data.data;
     } catch (error: any) {
       thunkAPI.rejectWithValue(error.message);
@@ -99,13 +124,17 @@ export const addPost = createAsyncThunk(
   "post/addPost",
   async (args: any, thunkAPI) => {
     try {
-      // console.log(args);
       const { data }: any = await axios.post(
         "https://qn-api.herokuapp.com/api/post",
-        args, {
-          headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    
-          }
+        args,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
       );
       return data.data;
     } catch (error: any) {
@@ -162,7 +191,7 @@ export const postSlice = createSlice({
     builder.addCase(getPosts.fulfilled, (state, action: any) => {
       state.loading = false;
       state.posts = action.payload.posts;
-      // console.log(action.payload);
+      // (action.payload);
       state.totalPages = action.payload.totalPages;
     });
     builder.addCase(getPosts.rejected, (state, action: any) => {
@@ -211,7 +240,6 @@ export const postSlice = createSlice({
     });
     builder.addCase(editPost.fulfilled, (state, action: any) => {
       state.edited = true;
-      // console.log("fullfiled");
     });
     builder.addCase(editPost.rejected, (state, action: any) => {
       state.loading = false;

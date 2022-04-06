@@ -21,7 +21,6 @@ export const SunnahBooks: FC = (props) => {
 
   const infinityScrollRef = useRef<any>();
   useEffect(() => {
-    console.log(infinityScrollRef.current);
     let observer = new IntersectionObserver((e, observer) => {
       changeCurrNumber();
     });
@@ -44,14 +43,6 @@ export const SunnahBooks: FC = (props) => {
     )
       .then((e) => e.json())
       .then((data) => {
-        console.log(
-          "https://api.hadith.sutanlab.id/books/" +
-            params.id +
-            "?range=" +
-            currNumber +
-            "-10",
-          "https://api.hadith.sutanlab.id/books/" + params.id + "?range=1-10"
-        );
         setHadith([...hadith, ...data.data.hadiths]);
         setAvailabe(data.data.availabe);
       });
@@ -62,7 +53,6 @@ export const SunnahBooks: FC = (props) => {
     // };
     // const infinityScrollRef = useRef<any>();
     // useEffect(() => {
-    //   console.log(infinityScrollRef.current);
     //   let observer = new IntersectionObserver((e, observer) => {
     //     if (surahName.name.length && e[0].isIntersecting)
     //       e[0].isIntersecting && changeCurrNumber();

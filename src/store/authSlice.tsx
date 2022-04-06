@@ -13,7 +13,6 @@ export const signin = createAsyncThunk(
   "auth/login",
   async (args: { email: string; password: string }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
-    console.log({ email: args.email, password: args.password });
     try {
       const res = await axios.post(
         "https://qn-api.herokuapp.com/api/user/signin",
@@ -40,11 +39,18 @@ export const signout = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       dispatch(logout());
-      const data = await axios.get("https://qn-api.herokuapp.com/api/user/signout" , {
-      headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-
-      });
-      
+      const data = await axios.get(
+        "https://qn-api.herokuapp.com/api/user/signout",
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
+        }
+      );
+      console.log("Asd");
       localStorage.setItem("token", JSON.stringify(""));
       localStorage.setItem("user", JSON.stringify({}));
       return {};
@@ -67,7 +73,6 @@ export const signup = createAsyncThunk(
     thunkAPI
   ) => {
     const { rejectWithValue } = thunkAPI;
-    console.log({ email: args.email, password: args.password });
     try {
       const { data } = await axios.post(
         "https://qn-api.herokuapp.com/api/user/signup",
@@ -95,11 +100,19 @@ export const signup = createAsyncThunk(
 export const getMe = createAsyncThunk("auth/getme", async (_, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
-    const { data } = await axios.get("https://qn-api.herokuapp.com/api/user/me", {
-      withCredentials: true,
-      headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-    });
-    
+    const { data } = await axios.get(
+      "https://qn-api.herokuapp.com/api/user/me",
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("token") &&
+            JSON.parse(localStorage.getItem("token") || "")
+          }`,
+        },
+      }
+    );
+
     return data.data;
   } catch (err: any) {
     return rejectWithValue(err.response.data);

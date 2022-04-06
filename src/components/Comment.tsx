@@ -28,7 +28,6 @@ export const Comment: React.FC<{
   const { user } = useSelector((state: Rootstate) => state.auth);
   const [display, setDisplay] = React.useState(false);
   const [deletedComment, setDeletedComment] = React.useState("");
-  console.log(comments.comments.length);
 
   return (
     <Container>
@@ -37,7 +36,6 @@ export const Comment: React.FC<{
         appear={display}
         setDisplay={setDisplay}
         action={() => {
-          console.log(deletedComment);
           setDisplay(false);
           dispatch(
             deleteComment({
@@ -110,7 +108,6 @@ export const Comment: React.FC<{
                   </div>
                   <div className="content--comment">
                     {com.content}
-                    {console.log(user.id === com.author.id)}
                     {user.id === com.author.id && (
                       <span
                         onClick={() => {
