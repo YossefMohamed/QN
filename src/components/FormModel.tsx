@@ -77,4 +77,15 @@ const Container = styled.div`
       cursor: initial;
     }
   }
+
+  @media (max-width: 1095px) {
+    width: 100%;
+    .input {
+      margin: 35px auto;
+      width: 90%;
+      input {
+        margin: 10px 0;
+      }
+    }
+  }
 `;
