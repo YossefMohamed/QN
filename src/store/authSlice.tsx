@@ -15,7 +15,7 @@ export const signin = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await axios.post(
-        "https://qn-api.herokuapp.com/api/user/signin",
+        "https://qn-api.onrender.com/api/user/signin",
         {
           email: args.email,
           password: args.password,
@@ -40,7 +40,7 @@ export const signout = createAsyncThunk(
     try {
       dispatch(logout());
       const data = await axios.get(
-        "https://qn-api.herokuapp.com/api/user/signout",
+        "https://qn-api.onrender.com/api/user/signout",
         {
           headers: {
             Authorization: `Bearer ${
@@ -75,7 +75,7 @@ export const signup = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const { data } = await axios.post(
-        "https://qn-api.herokuapp.com/api/user/signup",
+        "https://qn-api.onrender.com/api/user/signup",
         {
           email: args.email,
           name: args.firstName,
@@ -101,7 +101,7 @@ export const getMe = createAsyncThunk("auth/getme", async (_, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
     const { data } = await axios.get(
-      "https://qn-api.herokuapp.com/api/user/me",
+      "https://qn-api.onrender.com/api/user/me",
       {
         withCredentials: true,
         headers: {

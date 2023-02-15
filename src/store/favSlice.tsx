@@ -15,7 +15,7 @@ export const addFav = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await axios.post(
-        "https://qn-api.herokuapp.com/api/favorite",
+        "https://qn-api.onrender.com/api/favorite",
         {
           text: args.text,
           number: args.number,
@@ -27,10 +27,13 @@ export const addFav = createAsyncThunk(
         },
         {
           withCredentials: true,
-          
-            headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-      
-            
+
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("token") &&
+              JSON.parse(localStorage.getItem("token") || "")
+            }`,
+          },
         }
       );
       return res.data.data;
@@ -44,10 +47,15 @@ export const removeFav = createAsyncThunk(
   "fav/remove",
   async (args: { id: string }, thunkApi) => {
     const res = await axios.delete(
-      "https://qn-api.herokuapp.com/api/favorite/" + args.id, {
-        headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-  
-        }
+      "https://qn-api.onrender.com/api/favorite/" + args.id,
+      {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("token") &&
+            JSON.parse(localStorage.getItem("token") || "")
+          }`,
+        },
+      }
     );
     return res.data.data;
   }
@@ -55,13 +63,15 @@ export const removeFav = createAsyncThunk(
 
 export const getFavs = createAsyncThunk("fav/getall", async (_, thunkApi) => {
   try {
-    const res = await axios.get("https://qn-api.herokuapp.com/api/favorite/", {
+    const res = await axios.get("https://qn-api.onrender.com/api/favorite/", {
       withCredentials: true,
 
-      
-        headers :  {Authorization :`Bearer ${localStorage.getItem("token")&&JSON.parse(localStorage.getItem("token") || "")}`}
-  
-        
+      headers: {
+        Authorization: `Bearer ${
+          localStorage.getItem("token") &&
+          JSON.parse(localStorage.getItem("token") || "")
+        }`,
+      },
     });
     return res.data.data;
   } catch (err: any) {

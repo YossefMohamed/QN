@@ -6,7 +6,7 @@ export const getPosts = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.get(
-        "https://qn-api.herokuapp.com/api/post?page=" + args.page,
+        "https://qn-api.onrender.com/api/post?page=" + args.page,
         {
           headers: {
             Authorization: `Bearer ${
@@ -28,7 +28,7 @@ export const likePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.post(
-        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        "https://qn-api.onrender.com/api/post/" + args.post,
         {},
         {
           headers: {
@@ -51,7 +51,7 @@ export const deletePost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.delete(
-        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        "https://qn-api.onrender.com/api/post/" + args.post,
         {
           headers: {
             Authorization: `Bearer ${
@@ -74,7 +74,7 @@ export const editPost = createAsyncThunk(
     try {
       const { post }: any = thunkAPI.getState();
       const { data }: any = await axios.patch(
-        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        "https://qn-api.onrender.com/api/post/" + args.post,
         {
           content: args.body,
           title: args.title,
@@ -102,7 +102,7 @@ export const getPost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.get(
-        "https://qn-api.herokuapp.com/api/post/" + args.post,
+        "https://qn-api.onrender.com/api/post/" + args.post,
         {
           headers: {
             Authorization: `Bearer ${
@@ -125,7 +125,7 @@ export const addPost = createAsyncThunk(
   async (args: any, thunkAPI) => {
     try {
       const { data }: any = await axios.post(
-        "https://qn-api.herokuapp.com/api/post",
+        "https://qn-api.onrender.com/api/post",
         args,
         {
           headers: {
