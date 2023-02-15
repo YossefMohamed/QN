@@ -35,7 +35,7 @@ export const SunnahBooks: FC = (props) => {
   const navigate = useNavigate();
   useEffect(() => {
     fetch(
-      "https://api.hadith.sutanlab.id/books/" +
+      "https://api.hadith.gading.dev/books/" +
         params.id +
         "?range=" +
         currNumber +

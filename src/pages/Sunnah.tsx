@@ -8,7 +8,7 @@ import { colors } from "../constant";
 const Sunnah = () => {
   const [sunnahBooks, setSunnahBooks] = useState<any[]>([]);
   useEffect(() => {
-    fetch("https://api.hadith.sutanlab.id/books")
+    fetch("https://api.hadith.gading.dev/books")
       .then((e) => e.json())
       .then((data) => setSunnahBooks(data.data));
   }, []);

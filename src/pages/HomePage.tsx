@@ -17,7 +17,7 @@ export const HomePage = () => {
   const surahsReducer = useSelector((state: Rootstate) => state.surahs);
   useEffect(() => {
     fetch(
-      "https://api.hadith.sutanlab.id/books/" +
+      "https://api.hadith.gading.dev/books/" +
         "bukhari" +
         "?range=" +
         (new Date().getDate() + new Date().getMonth()) +
